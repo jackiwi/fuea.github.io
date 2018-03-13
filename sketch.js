@@ -232,24 +232,23 @@ function instructionPage(){
 						break;
 				case 2:
 						text1 = "DELETE : backspace";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nRemoves the rightmost currently used letter.";
 						break;
 				case 3:
 						text1 = "SHUFFLE : spacebar";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nShuffles the currently unused letters.";
 						break;
 				case 4:
 						text1 = "SUBMIT : enter";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nSubmit the current word.";
 						break;
 				case 5:
 						text1 = "NEXT : control";
-						text2 = "u can use the mouse for this if u really want. "+
-										"Starts a new round with a new word.";
+						text2 = "\nStarts a new round with a new word.";
 						break;
 				case 6:
 						text1 = "BONUS : control";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nStarts a new round with a new word.";
 						break;
 				case 7:
 						text1 = "EXIT : click!";

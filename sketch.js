@@ -188,7 +188,8 @@ function gameplay(){
 
 	if ((minutes >= 2) || (minutes >= 1 && seconds > 30)){
 		image(clockIMGS[0],32,100);
-	}else if ((timer >= 59) || (minutes >= 1 && seconds >= 0)){
+	}else if ((minutes.toString == "01"
+		  && seconds.toString == "00") || (minutes >= 1 && seconds >= 0)){
 		image(clockIMGS[1],32,100);
 	}else if (minutes >= 0 && seconds > 30){
 		image(clockIMGS[2],32,100);
@@ -408,6 +409,7 @@ function mouseClicked(){
 	if (whichScreen == 0){
 		if (titleScreenButtons[0].moused == true){
 			getNewWord();
+			score = 0;
 			clearInterval(idk);
 			seconds = "00";	minutes = "02";
 			startTimer(120);

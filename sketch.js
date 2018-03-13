@@ -141,7 +141,6 @@ function titleScreen(){
 
 function gameplay(){
 	image(bg,0,0);
-	//image(prototype,0,0);
 	if (bonusBoolean){
 		gameplayButtons[4].mousedOver(mouseX,mouseY);
 		gameplayButtons[4].show();
@@ -188,8 +187,8 @@ function gameplay(){
 
 	if ((minutes >= 2) || (minutes >= 1 && seconds > 30)){
 		image(clockIMGS[0],32,100);
-	}else if ((minutes.toString == "01"
-		  && seconds.toString == "00") || (minutes >= 1 && seconds >= 0)){
+	}else if ((minutes.toString() == "01"
+						&& seconds.toString() == "00") || (minutes >= 1 && seconds >= 0)){
 		image(clockIMGS[1],32,100);
 	}else if (minutes >= 0 && seconds > 30){
 		image(clockIMGS[2],32,100);
@@ -227,9 +226,9 @@ function instructionPage(){
 										` letter words.`;
 						break;
 				case 1:
-						text1 = "don't click these pls";
-						text2 = "i was too lazy to implement mouse clicking for this part,"+
-										" pls just use your keyboard to type the letters";
+						text1 = "KEYBOARD";
+						text2 = "Use your keyboard to type words, or "+
+										"use your mouse to click individual letters!";
 						break;
 				case 2:
 						text1 = "DELETE : backspace";
@@ -429,12 +428,45 @@ function mouseClicked(){
 		}else if (gameplayButtons[3].moused == true
 							&& newWordCounter > 5){
 			pressedCONTROL();
-		}else if (mouseX >= 160 && mouseX <= 560
+		}/*else if (mouseX >= 160 && mouseX <= 560
 							&& mouseY >= 235 && mouseY <= 370){
 			console.log("don't touch that");
-		}else if (gameplayButtons[5].moused == true){
+		}*/else if (gameplayButtons[5].moused == true){
 			gameplayButtons[2].x = 600;	gameplayButtons[2].y = 530;
 			whichScreen = 4;
+		}else if (mouseY >= 232 && mouseY <= 296){//topSix
+			for (let j = 0; j < 6; j++){
+				let xCoord = 165 + j*67;
+				if (topSix[j] != '0'
+						&& mouseX >= xCoord && mouseX <= xCoord + 61){
+					for (let i = 0; i < 6; i++){
+						if (botSix[i] == '0'){
+							botSix[i] = topSix[j];
+							topSix[j] = '0';
+						}
+					}
+					if (j < 5 && topSix[j+1] != '0'){
+						for (let k = j; k < 5; k++){
+							topSix[k] = topSix[k+1];
+							topSix[k+1] = '0';
+						}
+					}
+				}
+			}
+		}else if (mouseY >= 306 && mouseY <= 370){//botSix
+			for (let i = 0; i < 6; i++){
+				let xCoord = 161 + i*67;
+				if (botSix[i] != '0'
+						&& mouseX >= xCoord && mouseX <= xCoord + 61){
+							for (let j = 0; j < 6; j++){
+								if (topSix[j] == '0'){
+									topSix[j] = botSix[i];
+									botSix[i] = '0';
+									return;
+								}
+							}
+				}
+			}
 		}
 	}else if (whichScreen == 2){
 		if (instructionButtons[7].moused == true){
@@ -723,6 +755,7 @@ function startTimer(duration) {
 
         if (--timer < 0) {
 					//whichScreen = 4;
+					clearInterval(idk);
         }
     }, 1000);
 }

@@ -131,7 +131,7 @@ function titleScreen(){
 		.strokeWeight(4)
 		.textSize(32)
 		.textAlign(CENTER);
-	text("BROUGHT BACK FROM THE DEAD",random(369,371),random(179,181));
+	text("BROUGHT BACaaaK FROM THE DEAD",random(369,371),random(179,181));
 
 	for (let i = 0; i < titleScreenButtons.length; i++){
 		titleScreenButtons[i].mousedOver(mouseX,mouseY);

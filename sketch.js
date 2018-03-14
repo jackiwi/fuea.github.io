@@ -424,7 +424,8 @@ function mouseClicked(){
 			pressedSPACEBAR();
 		}else if (gameplayButtons[2].moused == true){
 			pressedENTER();
-		}else if (gameplayButtons[3].moused == true
+		}else if ((gameplayButtons[3].moused == true
+							|| gameplayButtons[4].moused == true)
 							&& newWordCounter > 5){
 			pressedCONTROL();
 		}/*else if (mouseX >= 160 && mouseX <= 560

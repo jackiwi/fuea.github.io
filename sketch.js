@@ -8,7 +8,7 @@ var titleScreenIMGS = [];
 var instructionPageIMGS = [];
 var clockIMGS = [];
 var scorescreenBG, bigScoreboard;
-var lol, rt, rtBouncer;
+var lol, rt, rtBouncer, gamecorner;
 var prototype;
 var font;
 
@@ -57,6 +57,7 @@ function preload(){
 	bigScoreboard = loadImage('images/4-bigscoreboard.png');
 	lol = loadImage('images/gratuitous-self-insert.png');
 	rt = loadImage('images/RT.png');
+	gamecorner = loadImage('images/gameovercorner.png');
 	font = loadFont('resources/Jackiwi-Regular.ttf');
 }
 
@@ -141,7 +142,6 @@ function titleScreen(){
 
 function gameplay(){
 	image(bg,0,0);
-	//image(prototype,0,0);
 	if (bonusBoolean){
 		gameplayButtons[4].mousedOver(mouseX,mouseY);
 		gameplayButtons[4].show();
@@ -188,7 +188,8 @@ function gameplay(){
 
 	if ((minutes >= 2) || (minutes >= 1 && seconds > 30)){
 		image(clockIMGS[0],32,100);
-	}else if (minutes >= 1 && seconds > 0){
+	}else if ((minutes.toString() == "01"
+						&& seconds.toString() == "00") || (minutes >= 1 && seconds >= 0)){
 		image(clockIMGS[1],32,100);
 	}else if (minutes >= 0 && seconds > 30){
 		image(clockIMGS[2],32,100);
@@ -226,30 +227,29 @@ function instructionPage(){
 										` letter words.`;
 						break;
 				case 1:
-						text1 = "don't click these pls";
-						text2 = "i was too lazy to implement mouse clicking for this part,"+
-										" pls just use your keyboard to type the letters";
+						text1 = "KEYBOARD";
+						text2 = "Use your keyboard to type words, or "+
+										"use your mouse to click individual letters!";
 						break;
 				case 2:
 						text1 = "DELETE : backspace";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nRemoves the rightmost currently used letter.";
 						break;
 				case 3:
 						text1 = "SHUFFLE : spacebar";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nShuffles the currently unused letters.";
 						break;
 				case 4:
 						text1 = "SUBMIT : enter";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nSubmit the current word.";
 						break;
 				case 5:
 						text1 = "NEXT : control";
-						text2 = "u can use the mouse for this if u really want. "+
-										"Starts a new round with a new word.";
+						text2 = "\nStarts a new round with a new word.";
 						break;
 				case 6:
 						text1 = "BONUS : control";
-						text2 = "\nu can use the mouse for this if u really want";
+						text2 = "\nStarts a new round with a new word.";
 						break;
 				case 7:
 						text1 = "EXIT : click!";
@@ -301,6 +301,8 @@ function infoPage(){
 }
 
 function gameOver(){
+	//image(titleScreenIMGS[0],0,0);
+	image(gamecorner, 507,393);
 	stroke(0);
 	fill(255)
 		.strokeWeight(24)
@@ -408,6 +410,7 @@ function mouseClicked(){
 	if (whichScreen == 0){
 		if (titleScreenButtons[0].moused == true){
 			getNewWord();
+			score = 0;
 			clearInterval(idk);
 			seconds = "00";	minutes = "02";
 			startTimer(120);
@@ -424,15 +427,49 @@ function mouseClicked(){
 			pressedSPACEBAR();
 		}else if (gameplayButtons[2].moused == true){
 			pressedENTER();
-		}else if (gameplayButtons[3].moused == true
+		}else if ((gameplayButtons[3].moused == true
+							|| gameplayButtons[4].moused == true)
 							&& newWordCounter > 5){
 			pressedCONTROL();
-		}else if (mouseX >= 160 && mouseX <= 560
+		}/*else if (mouseX >= 160 && mouseX <= 560
 							&& mouseY >= 235 && mouseY <= 370){
 			console.log("don't touch that");
-		}else if (gameplayButtons[5].moused == true){
+		}*/else if (gameplayButtons[5].moused == true){
 			gameplayButtons[2].x = 600;	gameplayButtons[2].y = 530;
 			whichScreen = 4;
+		}else if (mouseY >= 232 && mouseY <= 296){//topSix
+			for (let j = 0; j < 6; j++){
+				let xCoord = 165 + j*67;
+				if (topSix[j] != '0'
+						&& mouseX >= xCoord && mouseX <= xCoord + 61){
+					for (let i = 0; i < 6; i++){
+						if (botSix[i] == '0'){
+							botSix[i] = topSix[j];
+							topSix[j] = '0';
+						}
+					}
+					if (j < 5 && topSix[j+1] != '0'){
+						for (let k = j; k < 5; k++){
+							topSix[k] = topSix[k+1];
+							topSix[k+1] = '0';
+						}
+					}
+				}
+			}
+		}else if (mouseY >= 306 && mouseY <= 370){//botSix
+			for (let i = 0; i < 6; i++){
+				let xCoord = 161 + i*67;
+				if (botSix[i] != '0'
+						&& mouseX >= xCoord && mouseX <= xCoord + 61){
+							for (let j = 0; j < 6; j++){
+								if (topSix[j] == '0'){
+									topSix[j] = botSix[i];
+									botSix[i] = '0';
+									return;
+								}
+							}
+				}
+			}
 		}
 	}else if (whichScreen == 2){
 		if (instructionButtons[7].moused == true){
@@ -721,6 +758,7 @@ function startTimer(duration) {
 
         if (--timer < 0) {
 					//whichScreen = 4;
+					clearInterval(idk);
         }
     }, 1000);
 }

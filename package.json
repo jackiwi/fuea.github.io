@@ -1,0 +1,22 @@
+{
+  "name": "word-challenge-2017",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackiwi/fuea.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackiwi/fuea.github.io/issues"
+  },
+  "homepage": "https://github.com/jackiwi/fuea.github.io#readme",
+  "dependencies": {
+    "firebase": "^9.15.0"
+  }
+}

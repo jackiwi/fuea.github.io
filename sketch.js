@@ -627,13 +627,13 @@ function loadDictionaries(){
 
 function checkWord(word, dict){
 	var index = dict.findIndex(function(element){
-		return element === word;
+		return element.trim() === word.trim();
 	});
 	return index;
 }
 
 function getNewWord(){
-	 finalWord = sixLetterWords[Math.floor(Math.random()*sixLetterWords.length)];
+	 finalWord = sixLetterWords[Math.floor(Math.random()*sixLetterWords.length)].trim();
 	 topSix = ['0','0','0','0','0','0'];
 	 botSix = finalWord.split('');
 	 for (let i = 5; i >= 0; i--){
